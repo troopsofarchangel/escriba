@@ -1,0 +1,2 @@
+# escriba
+Trampo de escriba!
