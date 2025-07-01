@@ -1,0 +1,6 @@
+{
+  "name": "Gerador de Balaústre Maçônico",
+  "description": "Uma aplicação para auxiliar na redação de atas de sessões maçônicas (Balaústres). Preencha os campos do formulário para gerar um texto formal e coeso.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
