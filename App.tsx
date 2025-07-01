@@ -27,7 +27,7 @@ const App: React.FC = () => {
     expediente: 'Leitura, discussão e votação do balaústre da sessão anterior, que foi aprovado por unanimidade.',
     sacDePpropEInf: 'Nenhuma proposta foi apresentada.',
     ordemDoDia: 'Instrução do grau.',
-    troncoDeBeneficencia: '',
+    troncoDeBeneficencia: 'R$',
     numeroIrmaosPresentesChanceler: '',
     aniversariantes: '',
     colunaSul: '',
@@ -54,7 +54,28 @@ const App: React.FC = () => {
     const [ano, mes, dia] = dataSessao.split('-');
     const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
     const mesNome = meses[parseInt(mes, 10) - 1];
-    return `BALAÚSTRE DE SESSÃO DE ${grau.toUpperCase()} MAÇOM.\n\nBALAÚSTRE n.º ${numeroBalaustre} da Sessão ${tipoSessao}, realizada no dia ${dia} de ${mesNome} de ${ano} da E:.V:., no Templo da Loja ${nomeLoja}, sito à ${enderecoLoja}, Or:. de ${cidadeLoja}, reuniram-se ${numeroIrmaos} IIr:. sob os auspícios do G:.O:.P:.\n\nOs trabalhos foram abertos ritualisticamente às ${horaAbertura} horas.\n\nA Loja estava constituída por:\n1) V:.M:. ${veneravelMestre};\n2) 1º V:. ${primeiroVigilante};\n3) 2º V:. ${segundoVigilante};\n4) Or:. ${orador};\n5) Sec:. ${secretario};\n6) G:.T:. ${guardaTemplo};\n7) M:.C:. ${mestreCerimonias}, e o V:.M:. preencheu os demais cargos.\n\nEXPEDIENTE: ${expediente}\n\n"SACO DE PROPOSTAS E INFORMAÇÕES": O M:.C:. fez o giro e colheu o que o V:.M:. decifrou como: ${sacDePpropEInf}\n\n"ORDEM DO DIA": ${ordemDoDia}\n\nTRONCO DE BENEFICÊNCIA: O Ir:. Hosp:. fez seu giro e colheu a quantia de ${troncoDeBeneficencia}.\n\n"PALAVRA A BEM DA ORDEM EM GERAL E DO QUADRO EM PARTICULAR": O Ir:. Chanc:. informou ao V:.M:. que ${numeroIrmaosPresentesChanceler} IIr:. estavam abrilhantando a sessão e parabenizou os IIr:. aniversariantes do mês: ${aniversariantes || 'Nenhum.'}.\nNa Coluna do Sul: ${colunaSul || 'Ninguém fez uso da palavra.'}\nNa Coluna do Norte: ${colunaNorte || 'Ninguém fez uso da palavra.'}\nNo Oriente: ${oriente || 'Ninguém fez uso da palavra.'}\n\nO Ir:. Orador, ${orador}, usou da palavra para suas considerações finais, ${consideracoesOrador}, e concluiu que a sessão foi "JUSTA E PERFEITA", devolvendo a palavra ao V:.M:., para o encerramento ritualístico.\n\n"ENCERRAMENTO": Não havendo mais manifestações, o V:.M:. encerrou a presente Sessão ritualisticamente às ${horaEncerramento} horas.\n\nEu, ${secretario}, Sec:. de Ofício, lavrei o presente Balaústre que, após lido e aprovado, será assinado por quem de direito.\n\nOr:. de ${cidadeEstadoLavratura}, aos ${dia} dias do mês de ${mesNome} de ${ano}.`;
+    // Cabeçalho centralizado
+    const cabecalho = `BALAÚSTRE DE SESSÃO DE ${grau.toUpperCase()} MAÇOM.\n\nBALAÚSTRE n.º ${numeroBalaustre} da Sessão ${tipoSessao}, realizada no dia ${dia} de ${mesNome} de ${ano} da E:.V:., no Templo da Loja ${nomeLoja}, sito à ${enderecoLoja}, Or:. de ${cidadeLoja}, reuniram-se ${numeroIrmaos} IIr:. sob os auspícios do G:.O:.P:.\n\nOs trabalhos foram abertos ritualisticamente às ${horaAbertura} horas.`;
+    // Oficiais e Participantes alinhado à esquerda
+    const oficiais = `A Loja estava constituída por:\n1) V:.M:. ${veneravelMestre};\n2) 1º V:. ${primeiroVigilante};\n3) 2º V:. ${segundoVigilante};\n4) Or:. ${orador};\n5) Secr:. ${secretario};\n6) G:. d:. T:. ${guardaTemplo};\n7) M:. de Ccer:. ${mestreCerimonias}, e o V:.M:. preencheu os demais cargos.`;
+    // Lembretes centralizado
+    const lembretes = `\n\nAniversariantes do mês: ${aniversariantes || 'Nenhum.'}`;
+    // Rito e Palavra centralizado
+    const ritoPalavra = `\n\nEXPEDIENTE: ${expediente}\n\n"SACO DE PROPOSTAS E INFORMAÇÕES": Fez o giro e colheu as CCol:. que o V:.M:. decifrou como: ${sacDePpropEInf}\n\n"ORDEM DO DIA": ${ordemDoDia}\n\nTRONCO DE BENEFICÊNCIA: Fez seu giro e colheu a quantia de ${troncoDeBeneficencia}.\n\n"PALAVRA A BEM DA ORDEM EM GERAL E DO QUADRO EM PARTICULAR": O Ir:. Chanc:. informou ao V:.M:. que ${numeroIrmaosPresentesChanceler} IIr:. estavam abrilhantando a sessão.\nNa Coluna do Sul: ${colunaSul || 'Ninguém fez uso da palavra.'}\nNa Coluna do Norte: ${colunaNorte || 'Ninguém fez uso da palavra.'}\nNo Oriente: ${oriente || 'Ninguém fez uso da palavra.'}`;
+    // Considerações finais e encerramento
+    const finais = `\n\nO Ir:. Or:., ${orador}, usou da palavra para suas considerações finais, ${consideracoesOrador}, e concluiu que a sessão foi "JUSTA E PERFEITA", devolvendo a palavra ao V:.M:., para o encerramento ritualístico.\n\n"ENCERRAMENTO": Não havendo mais manifestações, o V:.M:. encerrou a presente Sessão ritualisticamente às ${horaEncerramento} horas.\n\nEu, ${secretario}, Secr:. de Ofício, lavrei o presente Balaústre que, após lido e aprovado, será assinado por quem de direito.\n\nOr:. de ${cidadeEstadoLavratura}, aos ${dia} dias do mês de ${mesNome} de ${ano}.`;
+    // Montar o texto final com marcações para centralizar (ex: usando markdown ou espaçamento)
+    return (
+      cabecalho.split('\n').map(l => l.trim()).map(l => l ? l.padStart(Math.floor((80 + l.length) / 2)) : '').join('\n') +
+      '\n\n' +
+      oficiais +
+      '\n\n' +
+      lembretes.split('\n').map(l => l.trim()).map(l => l ? l.padStart(Math.floor((80 + l.length) / 2)) : '').join('\n') +
+      '\n' +
+      ritoPalavra.split('\n').map(l => l.trim()).map(l => l ? l.padStart(Math.floor((80 + l.length) / 2)) : '').join('\n') +
+      '\n' +
+      finais
+    );
   };
 
   const handleGenerate = useCallback(() => {
@@ -127,9 +148,9 @@ const App: React.FC = () => {
                 <Input id="primeiroVigilante" label="1º V∴" value={formData.primeiroVigilante} onChange={handleChange} required />
                 <Input id="segundoVigilante" label="2º V∴" value={formData.segundoVigilante} onChange={handleChange} required />
                 <Input id="orador" label="Or∴" value={formData.orador} onChange={handleChange} required />
-                <Input id="secretario" label="Sec∴" value={formData.secretario} onChange={handleChange} required />
-                <Input id="guardaTemplo" label="G∴T∴" value={formData.guardaTemplo} onChange={handleChange} required />
-                <Input id="mestreCerimonias" label="M∴C∴" value={formData.mestreCerimonias} onChange={handleChange} required />
+                <Input id="secretario" label="Secr∴" value={formData.secretario} onChange={handleChange} required />
+                <Input id="guardaTemplo" label="G∴ d∴T∴" value={formData.guardaTemplo} onChange={handleChange} required />
+                <Input id="mestreCerimonias" label="M∴ de Ccer∴" value={formData.mestreCerimonias} onChange={handleChange} required />
                 <Input id="numeroIrmaos" label="Nº Total de IIr∴ Reunidos" type="number" value={formData.numeroIrmaos} onChange={handleChange} required />
                 <Input id="numeroIrmaosPresentesChanceler" label="Nº de IIr∴ (Info Chanc∴)" type="number" value={formData.numeroIrmaosPresentesChanceler} onChange={handleChange} placeholder="Normalmente o mesmo nº total" required />
               </Card>
