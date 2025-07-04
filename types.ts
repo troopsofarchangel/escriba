@@ -7,7 +7,6 @@ export interface MasonicMinutesData {
   nomeLoja: string;
   enderecoLoja: string;
   cidadeLoja: string;
-  numeroIrmaos: string;
   horaAbertura: string;
   veneravelMestre: string;
   primeiroVigilante: string;
@@ -28,4 +27,6 @@ export interface MasonicMinutesData {
   consideracoesOrador: string;
   horaEncerramento: string;
   cidadeEstadoLavratura: string;
+  periodoInstrucao: string;
 }
+
