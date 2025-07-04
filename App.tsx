@@ -37,7 +37,8 @@ const App: React.FC = () => {
     oriente: '',
     consideracoesOrador: 'Agradeceu aos visitantes e parabenizou os obreiros pela bela sessão.',
     horaEncerramento: '22:00',
-    cidadeEstadoLavratura: ''
+    cidadeEstadoLavratura: '',
+    periodoInstrucao: '',
   });
   const [generatedText, setGeneratedText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,19 +55,20 @@ const App: React.FC = () => {
   
   const gerarBalaustreLocal = (data: MasonicMinutesData): string => {
     // Função local para gerar o texto do balaústre sem IA
-    const { grau, numeroBalaustre, tipoSessao, dataSessao, nomeLoja, enderecoLoja, cidadeLoja, numeroIrmaos, horaAbertura, veneravelMestre, primeiroVigilante, segundoVigilante, orador, secretario, guardaTemplo, mestreCerimonias, expediente, sacDePpropEInf, ordemDoDia, troncoDeBeneficencia, numeroIrmaosPresentesChanceler, aniversariantes, colunaSul, colunaNorte, oriente, consideracoesOrador, horaEncerramento, cidadeEstadoLavratura } = data;
+    const { grau, numeroBalaustre, tipoSessao, dataSessao, nomeLoja, enderecoLoja, cidadeLoja, numeroIrmaos, horaAbertura, veneravelMestre, primeiroVigilante, segundoVigilante, orador, secretario, guardaTemplo, mestreCerimonias, expediente, sacDePpropEInf, ordemDoDia, troncoDeBeneficencia, numeroIrmaosPresentesChanceler, aniversariantes, colunaSul, colunaNorte, oriente, consideracoesOrador, horaEncerramento, cidadeEstadoLavratura, periodoInstrucao } = data;
     // Formatar data
     const [ano, mes, dia] = dataSessao.split('-');
     const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
     const mesNome = meses[parseInt(mes, 10) - 1];
     // Cabeçalho centralizado
-    const cabecalho = `BALAÚSTRE DE SESSÃO DE ${grau.toUpperCase()} MAÇOM.\n\nBALAÚSTRE n.º ${numeroBalaustre} da Sessão ${tipoSessao}, realizada no dia ${dia} de ${mesNome} de ${ano} da E:.V:., no Templo da Loja ${nomeLoja}, sito à ${enderecoLoja}, Or:. de ${cidadeLoja}, reuniram-se ${numeroIrmaos} IIr:. sob os auspícios do G:.O:.P:.\n\nOs trabalhos foram abertos ritualisticamente às ${horaAbertura} horas.`;
+    const cabecalho = `BALAÚSTRE DE SESSÃO DE ${grau.toUpperCase()} MAÇOM.\n\nBALAÚSTRE n.º ${numeroBalaustre} da Sessão ${tipoSessao}, realizada no dia ${dia} de ${mesNome} de ${ano} da E:.V:., no Templo da Loja ${nomeLoja}, sito à ${enderecoLoja}, Or:. de ${cidadeLoja}, sob os auspícios do G:.O:.P:.
+\nOs trabalhos foram abertos ritualisticamente às ${horaAbertura} horas.`;
     // Oficiais e Participantes alinhado à esquerda
     const oficiais = `A Loja estava constituída por:\n1) V:.M:. ${veneravelMestre};\n2) 1º V:. ${primeiroVigilante};\n3) 2º V:. ${segundoVigilante};\n4) Or:. ${orador};\n5) Secr:. ${secretario};\n6) G:. d:. T:. ${guardaTemplo};\n7) M:. de Ccer:. ${mestreCerimonias}, e o V:.M:. preencheu os demais cargos.`;
     // Lembretes centralizado
     const lembretes = `\n\nAniversariantes do mês: ${aniversariantes || 'Nenhum.'}`;
     // Rito e Palavra centralizado
-    const ritoPalavra = `\n\nEXPEDIENTE: ${expediente}\n\n"SACO DE PROPOSTAS E INFORMAÇÕES": Fez o giro e colheu as CCol:. que o V:.M:. decifrou como: ${sacDePpropEInf}\n\n"ORDEM DO DIA": ${ordemDoDia}\n\nTRONCO DE BENEFICÊNCIA: Fez seu giro e colheu a quantia de ${troncoDeBeneficencia}.\n\n"PALAVRA A BEM DA ORDEM EM GERAL E DO QUADRO EM PARTICULAR": O Ir:. Chanc:. informou ao V:.M:. que ${numeroIrmaosPresentesChanceler} IIr:. estavam abrilhantando a sessão.\nNa Coluna do Sul: ${colunaSul || 'Ninguém fez uso da palavra.'}\nNa Coluna do Norte: ${colunaNorte || 'Ninguém fez uso da palavra.'}\nNo Oriente: ${oriente || 'Ninguém fez uso da palavra.'}`;
+    const ritoPalavra = `\n\nEXPEDIENTE: ${expediente}\n\n"SACO DE PROPOSTAS E INFORMAÇÕES": O M:.C:. fez o giro e colheu o que o V:.M:. decifrou como: ${sacDePpropEInf}\n\n"ORDEM DO DIA": ${ordemDoDia}\n\n"PERÍODO DE INSTRUÇÃO": ${periodoInstrucao || 'Não houve instrução registrada.'}\n\nTRONCO DE BENEFICÊNCIA: O Ir:. Hosp:. fez seu giro e colheu a quantia de ${troncoDeBeneficencia}.\n\n"PALAVRA A BEM DA ORDEM EM GERAL E DO QUADRO EM PARTICULAR": O Ir:. Chanc:. informou ao V:.M:. que ${numeroIrmaosPresentesChanceler} IIr:. estavam abrilhantando a sessão.\nNa Coluna do Sul: ${colunaSul || 'Ninguém fez uso da palavra.'}\nNa Coluna do Norte: ${colunaNorte || 'Ninguém fez uso da palavra.'}\nNo Oriente: ${oriente || 'Ninguém fez uso da palavra.'}`;
     // Considerações finais e encerramento
     const finais = `\n\nO Ir:. Or:., ${orador}, usou da palavra para suas considerações finais, ${consideracoesOrador}, e concluiu que a sessão foi "JUSTA E PERFEITA", devolvendo a palavra ao V:.M:., para o encerramento ritualístico.\n\n"ENCERRAMENTO": Não havendo mais manifestações, o V:.M:. encerrou a presente Sessão ritualisticamente às ${horaEncerramento} horas.\n\nEu, ${secretario}, Secr:. de Ofício, lavrei o presente Balaústre que, após lido e aprovado, será assinado por quem de direito.\n\nOr:. de ${cidadeEstadoLavratura}, aos ${dia} dias do mês de ${mesNome} de ${ano}.`;
     // Montar o texto final com marcações para centralizar (ex: usando markdown ou espaçamento)
@@ -113,10 +115,35 @@ const App: React.FC = () => {
 
     const margin = 15;
     const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
     const usableWidth = pageWidth - margin * 2;
-    
+    const usableHeight = pageHeight - margin * 2;
+    const lineHeight = 7; // altura de linha
+
+    // Quebra o texto em linhas do tamanho da página
     const lines = doc.splitTextToSize(generatedText, usableWidth);
-    doc.text(lines, margin, margin);
+    let cursorY = margin;
+    let pageNum = 1;
+    let lineCount = 0;
+
+    lines.forEach((line, idx) => {
+      if (cursorY + lineHeight > pageHeight - margin) {
+        // Rodapé com número da página
+        doc.setFontSize(10);
+        doc.text(`Página ${pageNum}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+        doc.setFontSize(12);
+        doc.addPage();
+        cursorY = margin;
+        pageNum++;
+      }
+      doc.text(line, margin, cursorY);
+      cursorY += lineHeight;
+      lineCount++;
+    });
+    // Rodapé da última página
+    doc.setFontSize(10);
+    doc.text(`Página ${pageNum}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+    doc.setFontSize(12);
 
     doc.save(`Balaustre_n${formData.numeroBalaustre || 'gerado'}.pdf`);
   };
@@ -207,7 +234,6 @@ const App: React.FC = () => {
                   <Input id="secretario" label="Secr∴" value={formData.secretario} onChange={handleChange} required />
                   <Input id="guardaTemplo" label="G∴ d∴T∴" value={formData.guardaTemplo} onChange={handleChange} required />
                   <Input id="mestreCerimonias" label="M∴ de Ccer∴" value={formData.mestreCerimonias} onChange={handleChange} required />
-                  <Input id="numeroIrmaos" label="Nº Total de IIr∴ Reunidos" type="number" value={formData.numeroIrmaos} onChange={handleChange} required />
                   <Input id="numeroIrmaosPresentesChanceler" label="Nº de IIr∴ (Info Chanc∴)" type="number" value={formData.numeroIrmaosPresentesChanceler} onChange={handleChange} placeholder="Normalmente o mesmo nº total" required />
                 </Card>
 
@@ -225,16 +251,19 @@ const App: React.FC = () => {
                 </Card>
                 
                 <Card title="Rito e Palavra">
-                  <Input id="horaAbertura" label="Hora de Abertura" type="time" value={formData.horaAbertura} onChange={handleChange} required />
-                  <div className="md:col-span-2"><Textarea id="expediente" label="Expediente" value={formData.expediente} onChange={handleChange} /></div>
-                  <div className="md:col-span-2"><Textarea id="sacDePpropEInf" label="Saco de Propostas e Informações" value={formData.sacDePpropEInf} onChange={handleChange} /></div>
-                  <div className="md:col-span-2"><Textarea id="ordemDoDia" label="Ordem do Dia" value={formData.ordemDoDia} onChange={handleChange} /></div>
-                  <Input id="troncoDeBeneficencia" label="Tronco de Beneficência (R$)" value={formData.troncoDeBeneficencia} onChange={handleChange} placeholder="Ex: R$ 150,00" />
-                  <div className="md:col-span-2"><Textarea id="colunaSul" label="Palavra na Coluna do Sul" value={formData.colunaSul} onChange={handleChange} placeholder="Relato de quem falou..." /></div>
-                  <div className="md:col-span-2"><Textarea id="colunaNorte" label="Palavra na Coluna do Norte" value={formData.colunaNorte} onChange={handleChange} placeholder="Relato de quem falou..." /></div>
-                  <div className="md:col-span-2"><Textarea id="oriente" label="Palavra no Oriente" value={formData.oriente} onChange={handleChange} placeholder="Relato de quem falou..." /></div>
-                  <div className="md:col-span-2"><Textarea id="consideracoesOrador" label="Considerações Finais do Orador" value={formData.consideracoesOrador} onChange={handleChange} /></div>
-                  <Input id="horaEncerramento" label="Hora de Encerramento" type="time" value={formData.horaEncerramento} onChange={handleChange} required />
+                  <div className="flex flex-col items-center text-center w-full">
+                    <Input id="horaAbertura" label="Hora de Abertura" type="time" value={formData.horaAbertura} onChange={handleChange} required />
+                    <Textarea id="expediente" label="Expediente" value={formData.expediente} onChange={handleChange} />
+                    <Textarea id="sacDePpropEInf" label="Saco de Propostas e Informações" value={formData.sacDePpropEInf} onChange={handleChange} />
+                    <Textarea id="ordemDoDia" label="Ordem do Dia" value={formData.ordemDoDia} onChange={handleChange} />
+                    <Textarea id="periodoInstrucao" label="Período de Instrução" value={formData.periodoInstrucao} onChange={handleChange} placeholder="Descreva as atividades de instrução, trabalhos, debates, etc." rows={4} />
+                    <Input id="troncoDeBeneficencia" label="Tronco de Beneficência (R$)" value={formData.troncoDeBeneficencia} onChange={handleChange} placeholder="Ex: R$ 150,00" />
+                    <Textarea id="colunaSul" label="Palavra na Coluna do Sul" value={formData.colunaSul} onChange={handleChange} placeholder="Relato de quem falou..." />
+                    <Textarea id="colunaNorte" label="Palavra na Coluna do Norte" value={formData.colunaNorte} onChange={handleChange} placeholder="Relato de quem falou..." />
+                    <Textarea id="oriente" label="Palavra no Oriente" value={formData.oriente} onChange={handleChange} placeholder="Relato de quem falou..." />
+                    <Textarea id="consideracoesOrador" label="Considerações Finais do Orador" value={formData.consideracoesOrador} onChange={handleChange} />
+                    <Input id="horaEncerramento" label="Hora de Encerramento" type="time" value={formData.horaEncerramento} onChange={handleChange} required />
+                  </div>
                 </Card>
 
                 <div className="mt-6 flex justify-end">
